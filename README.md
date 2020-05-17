@@ -2,11 +2,9 @@
 
 ## **Introduction**
 
-In this assignment, you will be dealing with volume rendering, which is a very common rendering technique in industry for volume data. Volume data is a widely used as a type of data sources, such as CT data, smoke data and so on.
-
-In this assignment, you are required to write a Volume Ray-caster. Compared to volume texture projection with the "over" operator, ray-casting method gives a much more detailed control for programmers to adjust the overall appearance. Implementing Ray-casting based volume rendering can also help you consolidate the basic knowledge of volume rendering. 
-
-In the following, we will give you the specifics about what you need to accomplish, as well as some related guidelines in order to assist your programming.
+In this assignment, you will be dealing with volume rendering, which is a very common rendering technique in the industry for volume data. Volume data is widely used as a type of data source, such as CT data, smoke data, and so on.
+In this assignment, you are required to write a Volume Ray-caster. Compared to volume texture projection with the "over" operator, the ray-casting method gives a much more detailed control for programmers to adjust the overall appearance. Implementing Ray-casting based volume rendering can also help you consolidate the basic knowledge of volume rendering. 
+In the following, we will give you the specifics about what you need to accomplish, as well as some related guidelines to assist your programming.
 
 ---
 
@@ -45,7 +43,7 @@ You only have to complete the core parts.
 
    A renderer which assemble all the components today and output the result image.
 
-**[Optional]** If either of below is completed, you will optional points. You should explain your implementation and show the comparison of results (before/after) in your report.
+**[Optional]** If either of below is completed, you will get optional points. You should explain your implementation and show the comparison of results (before/after) in your report.
 
 + Add in-scattering using phase function 
 + Add volume shadow 
@@ -104,34 +102,31 @@ Make sure that the source code you submitted is written by yourself independentl
 
 ## **Instructions**
 
-Most explanation of code structures will be presented in offline tutorials and recorded in videos. Here we only give some specification and guidance to make your life easier.
+Most explanations of code structures will be presented in offline tutorials and recorded in videos. Here we only give some specifications and guidance to make your life easier.
 
 1. gradient computing 
 
-   You should fill **computeGradients()** in **src/volume.cpp**. You shall consider to use [central difference](https://en.wikipedia.org/wiki/Finite_difference) to compute the gradients for all volume data in `volume.raw_data`  and store it as a member variable `graident` in `volumeData`.
+   You should fill `computeGradients()` in` src/volume.cpp`. You may consider using [central difference](https://en.wikipedia.org/wiki/Finite_difference) to compute the gradients for all volume data in `volume.raw_data`  and store it as a member variable `gradient` in `volumeData`.
 
 2. Sampler
 
-   You are free to use fixed step or adaptive when sampling along the ray. However, it is much more reasonable to follow the sampling theorem that was descripted on *page 43 of lecture19*.
+   You are free to use a fixed step or adaptive when sampling along the ray. However, it is much more reasonable to follow the sampling theorem that was described on *page 43 of lecture19*.
 
 3. Interpolator 
 
-   You are required to implement two kinds of interpolator ([Nearest Neighbour Interpolator](https://en.wikipedia.org/wiki/Nearest-neighbor_interpolation) and [Trilinear Interpolator](https://en.wikipedia.org/wiki/Trilinear_interpolation)) and compare rendering results. The main idea is to get importance weight of  a data point based on its position in a voxel and interpolate other attributes (density,gradient) using the weight. Using trilinear interpolator shall eliminate artifacts.
+   You are required to implement two kinds of interpolator ([Nearest Neighbour Interpolator](https://en.wikipedia.org/wiki/Nearest-neighbor_interpolation) and [Trilinear Interpolator](https://en.wikipedia.org/wiki/Trilinear_interpolation)) and compare rendering results. The main idea is to get the importance weight of  a data point based on its position in a voxel and interpolate other attributes (density,gradient) using the weight. Using trilinear interpolator shall eliminate artifacts.
 
 4. Classifier 
 
-   Here are two sub tasks:
+   Here are two subtasks:
 
    1. Customize your transfer function
    2. Local Phong Shading model 
 
-   Classifier works as a mapper from the volume data to optics data, giving the color and opacity that will be used in the composition process.  To determine the color, you shall consider emission and in-scattering. You could model the emission using phong lighting model (taking the gradient direction as normal). The in-scattering belongs to the optional part which can be neglected here.
-
-   Then, you have to decide the opacity. Opacity is the opposite concept of transparency. When opacity equals to 0, it means no energy will be absorbed. Higher density generally implies high absorption. You shall design and tune your own transfer function.
-
-   Besides, you should find a way to make use of gradient to enhance smoke structure.
-
-   You should be clear that  we are doing the discrete form of  calculus integration, so the energy and absorption should also be related with your step-size to correctly approximate as a Riemann Sum.
+   The classifier works as a mapper from the volume data to optics data, giving the color and opacity that will be used in the composition process. To determine the color, you shall consider emission and in-scattering. You could model the emission using the Phong lighting model (taking the gradient direction as normal). The in-scattering belongs to the optional part which can be neglected here.
+   Then, you have to decide on the opacity. Opacity is the opposite concept of transparency. When opacity equals to 0, it means no energy will be absorbed. Higher density generally implies high absorption. You shall design and tune your transfer function.
+   Besides, you should find a way to make use of gradient to enhance the smoke structure.
+   You should be clear that we are doing the discrete form of calculus integration, so the energy and absorption should also be related to your step-size to correctly approximate as a Riemann Sum.
 
 5. Compositor 
 
@@ -139,17 +134,14 @@ Most explanation of code structures will be presented in offline tutorials and r
 
 6. Renderer
 
-   To volume rendering, you has to first show a ray and decides the start point and end point through intersection with the volume. 
-
+   To do volume rendering, you have to first show a ray and decides the start point and the end point through the intersection with the volume. 
    Then, you shall sample a point and get its position. 
 
    After that, interpolate density and gradient with its voxel data (`interpolator.interpolate(position,volume.getVoxel(position)`).
 
    Now it's time to map the volume data into optics data.
-
-   Finally you could use your compositor to take in color and opacity from the optics data.
-
-   Then you will sample next point and repeat above process.
+   Finally, you could use your compositor to take in color and opacity from the optics data.
+   Then you will sample the next point and repeat the above process.
 
 ---
 
@@ -159,11 +151,11 @@ You are free to render one image or more. To download more data, click here.
 
 Here's a single frame.
 
-![](README.assets/foward_pre.png)
+![](https://s1.ax1x.com/2020/05/17/YgOnEQ.png)
 
 Here's a gif of 150 frames.
 
-![](README.assets/test.gif)
+![](https://s1.ax1x.com/2020/05/17/YgOkgP.gif)
 
 
 
